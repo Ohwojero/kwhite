@@ -21,8 +21,12 @@ export default function Dashboard() {
     setLinks(getLinks())
   }, [])
 
-  function update(index: number, field: keyof SocialLink, value: string) {
-    setLinks(prev => prev.map((l, i) => i === index ? { ...l, [field]: value } : l))
+  function update(index: number, field: keyof SocialLink, value: string | boolean) {
+    setLinks(prev => {
+      const updated = prev.map((l, i) => i === index ? { ...l, [field]: value } : l)
+      saveLinks(updated)
+      return updated
+    })
     setSaved(false)
   }
 
@@ -96,14 +100,30 @@ export default function Dashboard() {
             >
               {/* Platform label bar */}
               <div
-                className="flex items-center gap-2 px-4 py-3"
+                className="flex items-center justify-between px-4 py-3"
                 style={{ background: platformColors[link.name] ?? '#334155' }}
               >
                 <span className="text-xs font-bold uppercase tracking-widest text-white">{link.name}</span>
+                <button
+                  type="button"
+                  onClick={() => update(i, 'active', !link.active)}
+                  className={`relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white ${
+                    link.active ? 'bg-white/30' : 'bg-black/30'
+                  }`}
+                  aria-label={link.active ? `Deactivate ${link.name}` : `Activate ${link.name}`}
+                  role="switch"
+                  aria-checked={link.active}
+                >
+                  <span className={`pointer-events-none inline-block size-4 rounded-full bg-white shadow-sm transition-transform ${
+                    link.active ? 'translate-x-4' : 'translate-x-0'
+                  }`} />
+                </button>
               </div>
 
-              {/* Fields */}
-              <div className="grid gap-3 p-4 sm:grid-cols-2">
+              {/* Fields — hidden when inactive */}
+              <div className={`grid gap-3 p-4 sm:grid-cols-2 transition-opacity ${
+                link.active ? 'opacity-100' : 'opacity-40 pointer-events-none'
+              }`}>
                 <div className="sm:col-span-2">
                   <label className="mb-1.5 block text-[11px] font-medium uppercase tracking-wider text-muted-foreground">
                     URL / Link

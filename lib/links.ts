@@ -4,13 +4,14 @@ export type SocialLink = {
   href: string
   color: string
   bg: string
+  active: boolean
 }
 
 export const defaultLinks: SocialLink[] = [
-  { name: 'WhatsApp',  handle: 'Chat with us',    href: 'https://wa.me/',                color: '#ffffff', bg: '#25D366' },
-  { name: 'Telegram',  handle: 'Message us',      href: 'https://t.me/',                 color: '#ffffff', bg: '#2AABEE' },
-  { name: 'Zangi',     handle: 'Talk on Zangi',   href: 'https://zangi.com/',            color: '#ffffff', bg: '#7B5EA7' },
-  { name: 'Signal',    handle: 'Secure chat',     href: 'https://signal.org/',           color: '#ffffff', bg: '#3A76F0' },
+  { name: 'WhatsApp',  handle: 'Chat with us',  href: 'https://wa.me/',          color: '#ffffff', bg: '#25D366', active: true },
+  { name: 'Telegram',  handle: 'Message us',    href: 'https://t.me/',           color: '#ffffff', bg: '#2AABEE', active: true },
+  { name: 'Zangi',     handle: 'Talk on Zangi', href: 'https://zangi.com/',      color: '#ffffff', bg: '#7B5EA7', active: true },
+  { name: 'Signal',    handle: 'Secure chat',   href: 'https://signal.org/',     color: '#ffffff', bg: '#3A76F0', active: true },
 ]
 
 const KEY = 'ksocial_links'
@@ -19,7 +20,13 @@ export function getLinks(): SocialLink[] {
   if (typeof window === 'undefined') return defaultLinks
   try {
     const stored = localStorage.getItem(KEY)
-    return stored ? JSON.parse(stored) : defaultLinks
+    if (!stored) return defaultLinks
+    const parsed: SocialLink[] = JSON.parse(stored)
+    // merge with defaults to ensure all fields (incl. active) are always present
+    return defaultLinks.map((def) => {
+      const saved = parsed.find((l) => l.name === def.name)
+      return saved ? { ...def, ...saved } : def
+    })
   } catch {
     return defaultLinks
   }

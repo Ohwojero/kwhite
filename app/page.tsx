@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
-import { Check, ExternalLink, MessageCircle, X } from 'lucide-react'
+import { Check, ExternalLink, LayoutDashboard, MessageCircle, X } from 'lucide-react'
 import { getLinks, type SocialLink } from '@/lib/links'
 
 const WhatsAppIcon = () => (
@@ -42,11 +42,10 @@ export default function Page() {
   const closeRef = useRef<HTMLButtonElement>(null)
 
   useEffect(() => {
-    setSocialLinks(getLinks())
-  }, [])
-
-  useEffect(() => {
-    if (isOpen) closeRef.current?.focus()
+    if (isOpen) {
+      setSocialLinks(getLinks())
+      closeRef.current?.focus()
+    }
     const handleKeyDown = (e: KeyboardEvent) => { if (e.key === 'Escape') setIsOpen(false) }
     window.addEventListener('keydown', handleKeyDown)
     return () => window.removeEventListener('keydown', handleKeyDown)
@@ -60,7 +59,13 @@ export default function Page() {
             <span className="flex size-9 items-center justify-center rounded-xl bg-accent text-sm font-bold text-accent-foreground">K</span>
             <span className="font-sans text-sm font-semibold tracking-[0.18em] text-foreground uppercase">Social</span>
           </a>
-          <a href="/dashboard" className="font-mono text-[10px] tracking-[0.2em] text-muted-foreground uppercase transition-colors hover:text-foreground">Dashboard</a>
+          <a
+            href="/dashboard"
+            className="flex items-center gap-2 rounded-xl border border-border bg-secondary px-3 py-2 text-xs font-medium text-secondary-foreground transition-colors hover:bg-secondary/70"
+          >
+            <LayoutDashboard className="size-3.5" aria-hidden="true" />
+            Dashboard
+          </a>
         </header>
 
         <section id="top" className="flex flex-1 items-center py-16 sm:py-24">
@@ -150,7 +155,7 @@ export default function Page() {
 
               {/* Links */}
               <div className="grid gap-2 p-4">
-                {socialLinks.map(({ name, handle, href, color, bg }) => (
+                {socialLinks.filter(l => l.active).map(({ name, handle, href, color, bg }) => (
                   <a
                     key={name}
                     href={href}
@@ -179,8 +184,15 @@ export default function Page() {
               </div>
 
               {/* Footer */}
-              <div className="border-t border-border/60 px-6 py-4 text-center text-[11px] text-muted-foreground">
-                Tap any platform to visit our page
+              <div className="flex items-center justify-between border-t border-border/60 px-4 py-3">
+                <span className="text-[11px] text-muted-foreground">Tap any platform to connect</span>
+                <a
+                  href="/dashboard"
+                  className="flex items-center gap-1.5 rounded-lg bg-secondary px-2.5 py-1.5 text-[11px] font-medium text-secondary-foreground transition-colors hover:bg-secondary/70"
+                >
+                  <LayoutDashboard className="size-3" aria-hidden="true" />
+                  Dashboard
+                </a>
               </div>
             </div>
             </div>
