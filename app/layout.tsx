@@ -1,0 +1,50 @@
+import { Analytics } from '@vercel/analytics/next'
+import type { Metadata, Viewport } from 'next'
+import './globals.css'
+
+export const metadata: Metadata = {
+  title: 'K Social — Where good stuff happens',
+  description: 'Connect with K Social across TikTok, WhatsApp, Facebook, and Instagram. Big ideas, honest conversations, always in motion.',
+  keywords: ['K Social', 'social media', 'TikTok', 'Instagram', 'WhatsApp', 'Facebook', 'community'],
+  authors: [{ name: 'K Social' }],
+  openGraph: {
+    title: 'K Social — Where good stuff happens',
+    description: 'Connect with K Social across all your favourite platforms.',
+    type: 'website',
+    locale: 'en_US',
+  },
+  twitter: {
+    card: 'summary',
+    title: 'K Social',
+    description: 'Connect with K Social across all your favourite platforms.',
+  },
+  icons: {
+    icon: [
+      { url: '/icon.svg', type: 'image/svg+xml' },
+      { url: '/icon-light-32x32.png', sizes: '32x32', media: '(prefers-color-scheme: light)' },
+      { url: '/icon-dark-32x32.png', sizes: '32x32', media: '(prefers-color-scheme: dark)' },
+    ],
+    apple: { url: '/apple-icon.png', sizes: '180x180' },
+    shortcut: '/icon.svg',
+  },
+}
+
+export const viewport: Viewport = {
+  colorScheme: 'dark',
+  themeColor: '#2c3e50',
+}
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode
+}>) {
+  return (
+    <html lang="en" className="bg-background">
+      <body className="antialiased">
+        {children}
+        {process.env.NODE_ENV === 'production' && <Analytics />}
+      </body>
+    </html>
+  )
+}
