@@ -135,6 +135,12 @@ export default function Page() {
         aria-expanded={isOpen || undefined}
       >
         <MessageCircle className="size-6 transition-transform group-hover:-rotate-12" aria-hidden="true" />
+        {!isOpen && (
+          <span className="absolute -top-1 -right-1 flex size-4 items-center justify-center">
+            <span className="absolute inline-flex size-full animate-ping rounded-full bg-[#25D366] opacity-75" />
+            <span className="relative flex size-3 rounded-full bg-[#25D366]" />
+          </span>
+        )}
         <span className="sr-only">Open social links</span>
       </button>
 
@@ -148,8 +154,10 @@ export default function Page() {
           onMouseDown={(e) => { if (e.target === e.currentTarget) setIsOpen(false) }}
         >
           <div className="w-full max-w-md animate-in fade-in slide-in-from-bottom-4 duration-300 sm:slide-in-from-bottom-0 sm:zoom-in-95">
+            {/* Spinning border wrapper */}
+            <div className="relative rounded-3xl p-[3px]" style={{ background: 'conic-gradient(from var(--angle,0deg), #25D366, #1877F2, #E4405F, #111111, #f09433, #25D366)', animation: 'spin-border 3s linear infinite' }}>
             {/* Card */}
-            <div className="overflow-hidden rounded-3xl border border-border bg-card text-card-foreground shadow-2xl">
+            <div className="overflow-hidden rounded-[22px] border-0 bg-card text-card-foreground shadow-2xl">
 
               {/* Header */}
               <div className="flex items-center justify-between border-b border-border/60 px-6 py-5">
@@ -205,6 +213,7 @@ export default function Page() {
               <div className="border-t border-border/60 px-6 py-4 text-center text-[11px] text-muted-foreground">
                 Tap any platform to visit our page
               </div>
+            </div>
             </div>
           </div>
         </div>
