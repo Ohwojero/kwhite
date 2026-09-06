@@ -3,21 +3,7 @@
 import { useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 import { Check, ExternalLink, MessageCircle, X } from 'lucide-react'
-
-type SocialLink = {
-  name: string
-  handle: string
-  href: string
-  color: string
-  bg: string
-  icon: React.ReactNode
-}
-
-const TikTokIcon = () => (
-  <svg viewBox="0 0 24 24" fill="currentColor" className="size-5">
-    <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.76a4.85 4.85 0 0 1-1.01-.07z" />
-  </svg>
-)
+import { getLinks, type SocialLink } from '@/lib/links'
 
 const WhatsAppIcon = () => (
   <svg viewBox="0 0 24 24" fill="currentColor" className="size-5">
@@ -25,56 +11,39 @@ const WhatsAppIcon = () => (
   </svg>
 )
 
-const FacebookIcon = () => (
+const TelegramIcon = () => (
   <svg viewBox="0 0 24 24" fill="currentColor" className="size-5">
-    <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+    <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z" />
   </svg>
 )
 
-const InstagramIcon = () => (
+const ZangiIcon = () => (
   <svg viewBox="0 0 24 24" fill="currentColor" className="size-5">
-    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z" />
+    <path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm4.5 6.5h-3.25l-4.5 7H12l-4.5 7h3.25l4.5-7H12l4.5-7z" />
   </svg>
 )
 
-const socialLinks: SocialLink[] = [
-  {
-    name: 'TikTok',
-    handle: '@ksocial',
-    href: 'https://www.tiktok.com/',
-    color: '#ffffff',
-    bg: '#111111',
-    icon: <TikTokIcon />,
-  },
-  {
-    name: 'WhatsApp',
-    handle: 'Chat with us',
-    href: 'https://www.whatsapp.com/',
-    color: '#ffffff',
-    bg: '#25D366',
-    icon: <WhatsAppIcon />,
-  },
-  {
-    name: 'Facebook',
-    handle: 'K Social',
-    href: 'https://www.facebook.com/',
-    color: '#ffffff',
-    bg: '#1877F2',
-    icon: <FacebookIcon />,
-  },
-  {
-    name: 'Instagram',
-    handle: '@ksocial',
-    href: 'https://www.instagram.com/',
-    color: '#ffffff',
-    bg: 'linear-gradient(135deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888)',
-    icon: <InstagramIcon />,
-  },
-]
+const SignalIcon = () => (
+  <svg viewBox="0 0 24 24" fill="currentColor" className="size-5">
+    <path d="M12.001 0a.66.66 0 0 0-.167.022L9.49.69a.66.66 0 0 0-.476.8l.233.87a9.958 9.958 0 0 0-2.808 1.628l-.8-.453a.66.66 0 0 0-.902.242L4.08 5.43a.66.66 0 0 0 .242.901l.793.45A9.944 9.944 0 0 0 4.02 9.49l-.888-.163a.66.66 0 0 0-.768.528l-.43 2.35a.66.66 0 0 0 .527.768l.896.164a9.944 9.944 0 0 0 1.14 2.588l-.634.634a.66.66 0 0 0 0 .933l1.664 1.664a.66.66 0 0 0 .933 0l.622-.622a9.95 9.95 0 0 0 2.64 1.194l-.163.888a.66.66 0 0 0 .527.768l2.35.43a.66.66 0 0 0 .768-.527l.164-.896a9.944 9.944 0 0 0 2.64-1.097l.622.622a.66.66 0 0 0 .933 0l1.664-1.664a.66.66 0 0 0 0-.933l-.622-.622a9.95 9.95 0 0 0 1.097-2.64l.896.163a.66.66 0 0 0 .768-.527l.43-2.35a.66.66 0 0 0-.527-.768l-.888-.163a9.944 9.944 0 0 0-1.097-2.64l.622-.622a.66.66 0 0 0 0-.933L19.52 4.08a.66.66 0 0 0-.933 0l-.622.622A9.95 9.95 0 0 0 15.376 3.6l.163-.888a.66.66 0 0 0-.527-.768L12.662.514A.66.66 0 0 0 12.001 0zm.001 5.5a6.5 6.5 0 1 1 0 13 6.5 6.5 0 0 1 0-13z" />
+  </svg>
+)
+
+const platformIcons: Record<string, React.ReactNode> = {
+  WhatsApp: <WhatsAppIcon />,
+  Telegram: <TelegramIcon />,
+  Zangi:    <ZangiIcon />,
+  Signal:   <SignalIcon />,
+}
 
 export default function Page() {
   const [isOpen, setIsOpen] = useState(false)
+  const [socialLinks, setSocialLinks] = useState<SocialLink[]>([])
   const closeRef = useRef<HTMLButtonElement>(null)
+
+  useEffect(() => {
+    setSocialLinks(getLinks())
+  }, [])
 
   useEffect(() => {
     if (isOpen) closeRef.current?.focus()
@@ -91,7 +60,7 @@ export default function Page() {
             <span className="flex size-9 items-center justify-center rounded-xl bg-accent text-sm font-bold text-accent-foreground">K</span>
             <span className="font-sans text-sm font-semibold tracking-[0.18em] text-foreground uppercase">Social</span>
           </a>
-          <span className="font-mono text-[10px] tracking-[0.2em] text-muted-foreground uppercase">Social studio</span>
+          <a href="/dashboard" className="font-mono text-[10px] tracking-[0.2em] text-muted-foreground uppercase transition-colors hover:text-foreground">Dashboard</a>
         </header>
 
         <section id="top" className="flex flex-1 items-center py-16 sm:py-24">
@@ -155,7 +124,7 @@ export default function Page() {
         >
           <div className="w-full max-w-md animate-in fade-in slide-in-from-bottom-4 duration-300 sm:slide-in-from-bottom-0 sm:zoom-in-95">
             {/* Spinning border wrapper */}
-            <div className="relative rounded-3xl p-[3px]" style={{ background: 'conic-gradient(from var(--angle,0deg), #25D366, #1877F2, #E4405F, #111111, #f09433, #25D366)', animation: 'spin-border 3s linear infinite' }}>
+            <div className="relative rounded-3xl p-[3px]" style={{ background: 'conic-gradient(from var(--angle,0deg), #25D366, #2AABEE, #7B5EA7, #3A76F0, #25D366)', animation: 'spin-border 3s linear infinite' }}>
             {/* Card */}
             <div className="overflow-hidden rounded-[22px] border-0 bg-card text-card-foreground shadow-2xl">
 
@@ -181,7 +150,7 @@ export default function Page() {
 
               {/* Links */}
               <div className="grid gap-2 p-4">
-                {socialLinks.map(({ name, handle, href, color, bg, icon }) => (
+                {socialLinks.map(({ name, handle, href, color, bg }) => (
                   <a
                     key={name}
                     href={href}
@@ -194,7 +163,7 @@ export default function Page() {
                       className="flex size-12 shrink-0 items-center justify-center rounded-2xl shadow-sm"
                       style={{ background: bg, color }}
                     >
-                      {icon}
+                      {platformIcons[name] ?? <ExternalLink className="size-5" />}
                     </span>
 
                     {/* Text */}
