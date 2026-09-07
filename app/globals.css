@@ -134,3 +134,30 @@
 @keyframes spin-border {
   to { --angle: 360deg; }
 }
+
+@keyframes icon-ring {
+  0%, 100% { transform: scale(1) rotate(0deg); box-shadow: 0 0 0 0 currentColor; }
+  20% { transform: scale(1.18) rotate(-8deg); }
+  40% { transform: scale(1.12) rotate(8deg); }
+  60% { transform: scale(1.08) rotate(-4deg); }
+  80% { transform: scale(1.04) rotate(4deg); }
+}
+
+@keyframes icon-pulse-ring {
+  0% { transform: scale(1); opacity: 0.7; }
+  70% { transform: scale(2.2); opacity: 0; }
+  100% { transform: scale(2.2); opacity: 0; }
+}
+
+.icon-vibrate {
+  animation: icon-ring 2.5s ease-in-out infinite;
+  transform-origin: center;
+}
+.icon-vibrate:nth-child(1) { animation-delay: 0s; }
+.icon-vibrate:nth-child(2) { animation-delay: 0.6s; }
+.icon-vibrate:nth-child(3) { animation-delay: 1.2s; }
+.icon-vibrate:nth-child(4) { animation-delay: 1.8s; }
+
+.icon-ring-pulse {
+  animation: icon-pulse-ring 2.5s ease-out infinite;
+}
