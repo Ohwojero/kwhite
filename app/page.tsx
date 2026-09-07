@@ -71,10 +71,10 @@ export default function Page() {
               </p>
 
               {/* Person + platform icons illustration */}
-              <div className="mb-10 pl-6" aria-hidden="true">
+              <div className="mb-10 flex justify-center pl-0 sm:justify-start sm:pl-6" aria-hidden="true">
                 <div className="relative inline-block">
                   {/* Person SVG */}
-                  <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <svg width="110" height="110" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <circle cx="40" cy="24" r="11" fill="#ecf0f1" opacity="0.9"/>
                     <path d="M20 66c0-11.046 8.954-20 20-20s20 8.954 20 20" stroke="#ecf0f1" strokeWidth="3" strokeLinecap="round" opacity="0.9"/>
                     <rect x="31" y="42" width="18" height="26" rx="3" fill="#34495e" stroke="#ecf0f1" strokeWidth="1.5" opacity="0.95"/>
@@ -87,24 +87,24 @@ export default function Page() {
                   </svg>
 
                   {/* WhatsApp — top right */}
-                  <span className="icon-vibrate absolute -top-3 -right-4 flex size-9 items-center justify-center rounded-full bg-[#25D366] text-white shadow-lg" style={{ animationDelay: '0s' }}>
+                  <span className="icon-vibrate absolute -top-4 -right-6 flex size-11 items-center justify-center rounded-full bg-[#25D366] text-white shadow-lg" style={{ animationDelay: '0s' }}>
                     <span className="icon-ring-pulse absolute inset-0 rounded-full bg-[#25D366]" style={{ animationDelay: '0s' }} />
                     <WhatsAppIcon />
                   </span>
                   {/* Telegram — top left */}
-                  <span className="icon-vibrate absolute -top-2 -left-5 flex size-8 items-center justify-center rounded-full bg-[#2AABEE] text-white shadow-lg" style={{ animationDelay: '0.6s' }}>
+                  <span className="icon-vibrate absolute -top-3 -left-7 flex size-10 items-center justify-center rounded-full bg-[#2AABEE] text-white shadow-lg" style={{ animationDelay: '0.6s' }}>
                     <span className="icon-ring-pulse absolute inset-0 rounded-full bg-[#2AABEE]" style={{ animationDelay: '0.6s' }} />
                     <TelegramIcon />
                   </span>
                   {/* Zangi — bottom right */}
-                  <span className="icon-vibrate absolute -bottom-3 -right-5 flex size-8 items-center justify-center rounded-full bg-[#7B5EA7] text-white shadow-lg" style={{ animationDelay: '1.2s' }}>
+                  <span className="icon-vibrate absolute -bottom-4 -right-7 flex size-10 items-center justify-center rounded-full bg-[#7B5EA7] text-white shadow-lg" style={{ animationDelay: '1.2s' }}>
                     <span className="icon-ring-pulse absolute inset-0 rounded-full bg-[#7B5EA7]" style={{ animationDelay: '1.2s' }} />
                     <ZangiIcon />
                   </span>
                   {/* Signal — bottom left */}
-                  <span className="icon-vibrate absolute -bottom-3 -left-4 flex size-9 items-center justify-center rounded-full bg-[#3A76F0] shadow-lg overflow-hidden" style={{ animationDelay: '1.8s' }}>
+                  <span className="icon-vibrate absolute -bottom-4 -left-6 flex size-11 items-center justify-center rounded-full bg-[#3A76F0] shadow-lg overflow-hidden" style={{ animationDelay: '1.8s' }}>
                     <span className="icon-ring-pulse absolute inset-0 rounded-full bg-[#3A76F0]" style={{ animationDelay: '1.8s' }} />
-                    <Image src="/images.png" alt="Signal" width={20} height={20} className="object-contain relative z-10" />
+                    <Image src="/images.png" alt="Signal" width={24} height={24} className="object-contain relative z-10" />
                   </span>
 
                   {/* Pulse ring */}
