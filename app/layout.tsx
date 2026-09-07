@@ -3,10 +3,17 @@ import type { Metadata, Viewport } from 'next'
 import './globals.css'
 
 export const metadata: Metadata = {
+  applicationName: 'K Social',
   title: 'K Social — Where good stuff happens',
   description: 'Connect with K Social across TikTok, WhatsApp, Facebook, and Instagram. Big ideas, honest conversations, always in motion.',
   keywords: ['K Social', 'social media', 'TikTok', 'Instagram', 'WhatsApp', 'Facebook', 'community'],
   authors: [{ name: 'K Social' }],
+  manifest: '/manifest.webmanifest',
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'black-translucent',
+    title: 'K Social',
+  },
   openGraph: {
     title: 'K Social — Where good stuff happens',
     description: 'Connect with K Social across all your favourite platforms.',
@@ -43,6 +50,19 @@ export default function RootLayout({
     <html lang="en" className="bg-background">
       <body className="antialiased">
         {children}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              if ('serviceWorker' in navigator) {
+                window.addEventListener('load', function () {
+                  navigator.serviceWorker.register('/sw.js').catch(function () {
+                    // Service worker registration is optional; continue normally if it fails.
+                  })
+                })
+              }
+            `,
+          }}
+        />
         {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>
     </html>

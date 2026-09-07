@@ -33,6 +33,8 @@ const platformIcons: Record<string, React.ReactNode> = {
 export default function Page() {
   const [isOpen, setIsOpen] = useState(false)
   const [socialLinks, setSocialLinks] = useState<SocialLink[]>([])
+  const [installPrompt, setInstallPrompt] = useState<any>(null)
+  const [showInstallHint, setShowInstallHint] = useState(false)
   const closeRef = useRef<HTMLButtonElement>(null)
 
   useEffect(() => {
@@ -40,25 +42,68 @@ export default function Page() {
       setSocialLinks(getLinks())
       closeRef.current?.focus()
     }
+
+    const handleBeforeInstallPrompt = (event: Event) => {
+      event.preventDefault()
+      setInstallPrompt(event)
+    }
+
+    const handleAppInstalled = () => {
+      setInstallPrompt(null)
+      setShowInstallHint(false)
+    }
+
     const handleKeyDown = (e: KeyboardEvent) => { if (e.key === 'Escape') setIsOpen(false) }
+
+    window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt)
+    window.addEventListener('appinstalled', handleAppInstalled)
     window.addEventListener('keydown', handleKeyDown)
-    return () => window.removeEventListener('keydown', handleKeyDown)
+
+    return () => {
+      window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt)
+      window.removeEventListener('appinstalled', handleAppInstalled)
+      window.removeEventListener('keydown', handleKeyDown)
+    }
   }, [isOpen])
+
+  const handleInstallClick = async () => {
+    if (installPrompt) {
+      installPrompt.prompt()
+      const { outcome } = await installPrompt.userChoice
+      if (outcome === 'accepted') {
+        setInstallPrompt(null)
+      }
+      return
+    }
+
+    setShowInstallHint(true)
+  }
 
   return (
     <main className="min-h-screen overflow-hidden bg-background text-foreground">
       <div className="mx-auto flex min-h-screen w-full max-w-7xl flex-col px-5 py-5 sm:px-8 sm:py-8">
-        <header className="flex items-center justify-between">
+        <header className="flex items-center justify-between gap-3">
           <a href="#top" className="flex items-center gap-3" aria-label="K Social — home">
-            <span className="flex size-9 items-center justify-center rounded-xl bg-accent text-sm font-bold text-accent-foreground">K</span>
+            <span className="flex size-9 items-center justify-center rounded-full bg-accent text-sm font-bold text-accent-foreground">K</span>
             <span className="font-sans text-sm font-semibold tracking-[0.18em] text-foreground uppercase">Social</span>
           </a>
-          <div className="flex items-center gap-2 rounded-xl border border-[#25D366]/30 bg-[#25D366]/10 px-3 py-2 text-xs font-medium text-[#25D366]">
-            <span className="relative flex size-2">
-              <span className="absolute inline-flex size-full animate-ping rounded-full bg-[#25D366] opacity-75" />
-              <span className="relative flex size-2 rounded-full bg-[#25D366]" />
-            </span>
-            Active 24/7
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={handleInstallClick}
+              className="relative hidden overflow-hidden rounded-xl border border-accent/60 bg-accent/12 px-3 py-2 text-xs font-semibold text-accent shadow-[0_0_0_1px_rgba(236,240,241,0.18),0_0_22px_rgba(236,240,241,0.18)] transition-all duration-300 hover:scale-[1.02] hover:bg-accent/18 sm:inline-flex"
+            >
+              <span className="absolute inset-0 rounded-xl bg-[radial-gradient(circle_at_center,rgba(236,240,241,0.18),transparent_60%)]" aria-hidden="true" />
+              <span className="absolute -inset-[1px] rounded-xl border border-accent/40 animate-pulse" aria-hidden="true" />
+              <span className="relative">Install now</span>
+            </button>
+            <div className="flex items-center gap-2 rounded-xl border border-[#25D366]/30 bg-[#25D366]/10 px-3 py-2 text-xs font-medium text-[#25D366]">
+              <span className="relative flex size-2">
+                <span className="absolute inline-flex size-full animate-ping rounded-full bg-[#25D366] opacity-75" />
+                <span className="relative flex size-2 rounded-full bg-[#25D366]" />
+              </span>
+              Active 24/7
+            </div>
           </div>
         </header>
 
@@ -122,10 +167,26 @@ export default function Page() {
               <p className="mb-6 text-base leading-7 text-muted-foreground sm:text-lg">
                 A small corner of the internet for big ideas, honest conversations, and the people who make it all worth following.
               </p>
-              <div className="flex items-center gap-3 border-t border-border/70 pt-5 text-xs text-muted-foreground">
-                <Check className="size-4 text-accent" aria-hidden="true" />
-                <span>Open, friendly, always in motion.</span>
+              <div className="flex flex-col gap-3 border-t border-border/70 pt-5 text-xs text-muted-foreground sm:flex-row sm:items-center">
+                <div className="flex items-center gap-3">
+                  <Check className="size-4 text-accent" aria-hidden="true" />
+                  <span>Open, friendly, always in motion.</span>
+                </div>
+                <button
+                  type="button"
+                  onClick={handleInstallClick}
+                  className="relative inline-flex items-center justify-center overflow-hidden rounded-lg border border-accent/60 bg-accent/12 px-3 py-2 text-[11px] font-semibold text-accent shadow-[0_0_0_1px_rgba(236,240,241,0.18),0_0_16px_rgba(236,240,241,0.18)] transition-all duration-300 hover:scale-[1.02] hover:bg-accent/18"
+                >
+                  <span className="absolute inset-0 rounded-lg bg-[radial-gradient(circle_at_center,rgba(236,240,241,0.18),transparent_60%)]" aria-hidden="true" />
+                  <span className="absolute -inset-[1px] rounded-lg border border-accent/40 animate-pulse" aria-hidden="true" />
+                  <span className="relative">Install now</span>
+                </button>
               </div>
+              {showInstallHint && (
+                <p className="mt-3 text-[11px] text-muted-foreground">
+                  Open your browser menu and choose “Add to Home Screen” to install this app.
+                </p>
+              )}
             </div>
           </div>
         </section>
