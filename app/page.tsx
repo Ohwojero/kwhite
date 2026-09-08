@@ -30,11 +30,72 @@ const platformIcons: Record<string, React.ReactNode> = {
   Signal:   <Image src="/images.png" alt="Signal" width={18} height={18} className="object-contain" />,
 }
 
+const FEATURE_ITEMS = [
+  {
+    id: 'beginner-guide',
+    title: 'Full beginner guide',
+    progress: '100%',
+    accent: 'bg-[#25D366]',
+    summary: 'A plain-English roadmap for getting started without the overwhelm.',
+    description: 'This beginner-focused pathway explains how to set up, navigate, and start using the platform confidently, even if you are completely new to the space.',
+    bullets: ['Step-by-step setup', 'Beginner-friendly actions', 'Clear learning flow'],
+    images: [
+      'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1200&q=80',
+      'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1200&q=80',
+      'https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1200&q=80',
+    ],
+  },
+  {
+    id: 'trading-tool',
+    title: 'Automated AI/forex trading',
+    progress: '80%',
+    accent: 'bg-[#2AABEE]',
+    summary: 'Smart automation that helps simplify market decisions and execution.',
+    description: 'A trading system designed to monitor signals, reduce manual decision fatigue, and support faster execution with structured automation.',
+    bullets: ['Signal-driven workflow', 'Market monitoring', 'Actionable execution'],
+    images: [
+      'https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&w=1200&q=80',
+      'https://images.unsplash.com/photo-1559526324-4b87b5e36e44?auto=format&fit=crop&w=1200&q=80',
+      'https://images.unsplash.com/photo-1569012871812-f38ee64cd54c?auto=format&fit=crop&w=1200&q=80',
+    ],
+  },
+  {
+    id: 'multi-currency',
+    title: 'Multi-currency',
+    progress: '60%',
+    accent: 'bg-[#7B5EA7]',
+    summary: 'Flexible currency support for smoother international transactions.',
+    description: 'Designed for people working across regions, this feature supports multi-account and cross-border financial flows with less friction.',
+    bullets: ['Multi-region access', 'Currency flexibility', 'Cross-border ready'],
+    images: [
+      'https://images.unsplash.com/photo-1559066941-7f57d4a2a8d2?auto=format&fit=crop&w=1200&q=80',
+      'https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?auto=format&fit=crop&w=1200&q=80',
+      'https://images.unsplash.com/photo-1559526324-4b87b5e36e44?auto=format&fit=crop&w=1200&q=80',
+    ],
+  },
+  {
+    id: 'support',
+    title: 'Customer support',
+    progress: '40%',
+    accent: 'bg-[#3A76F0]',
+    summary: 'Helpful support when users need answers or quick guidance.',
+    description: 'Customer support keeps communication flowing and helps users solve problems quickly, with a responsive and reliable service experience.',
+    bullets: ['Fast issue handling', 'Helpful assistance', 'Better user confidence'],
+    images: [
+      'https://images.unsplash.com/photo-1556157382-97eda2d62296?auto=format&fit=crop&w=1200&q=80',
+      'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1200&q=80',
+      'https://images.unsplash.com/photo-1516321497487-e288fb19713f?auto=format&fit=crop&w=1200&q=80',
+    ],
+  },
+] as const
+
 export default function Page() {
   const [isOpen, setIsOpen] = useState(false)
   const [socialLinks, setSocialLinks] = useState<SocialLink[]>(() => getLinks())
   const [installPrompt, setInstallPrompt] = useState<any>(null)
   const [showInstallHint, setShowInstallHint] = useState(false)
+  const [activeFeature, setActiveFeature] = useState<(typeof FEATURE_ITEMS)[number] | null>(null)
+  const [featureImageIndex, setFeatureImageIndex] = useState(0)
   const closeRef = useRef<HTMLButtonElement>(null)
 
   const openSocialLinks = () => {
@@ -49,6 +110,16 @@ export default function Page() {
   const closeSocialLinks = () => {
     console.log('Closing social modal')
     setIsOpen(false)
+  }
+
+  const openFeature = (feature: (typeof FEATURE_ITEMS)[number]) => {
+    setActiveFeature(feature)
+    setFeatureImageIndex(0)
+  }
+
+  const closeFeature = () => {
+    setActiveFeature(null)
+    setFeatureImageIndex(0)
   }
 
   useEffect(() => {
@@ -67,7 +138,10 @@ export default function Page() {
     }
 
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') setIsOpen(false)
+      if (e.key === 'Escape') {
+        setIsOpen(false)
+        setActiveFeature(null)
+      }
     }
 
     window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt)
@@ -185,6 +259,39 @@ export default function Page() {
             </div>
 
             <div className="max-w-sm lg:justify-self-end">
+              <div className="mb-6 flex flex-col items-start gap-3 overflow-hidden rounded-[30px] bg-transparent p-3 shadow-[0_25px_60px_rgba(15,23,42,0.06)]">
+                {FEATURE_ITEMS.map((feature, index) => (
+                  <button
+                    key={feature.id}
+                    type="button"
+                    onClick={() => openFeature(feature)}
+                    className="group inline-block rounded-2xl bg-accent/12 text-left transition-all duration-300 hover:-translate-y-0.5 hover:bg-accent/18 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                    style={{ width: feature.progress }}
+                  >
+                    <div className="flex items-center justify-between gap-3 px-3 pt-3">
+                      <span className="text-[10px] font-medium uppercase tracking-[0.18em] text-muted-foreground">0{index + 1}</span>
+                      <span className="text-[10px] font-medium uppercase tracking-[0.18em] text-muted-foreground">{feature.title}</span>
+                    </div>
+                    <div className="px-3 pb-3 pt-2">
+                      <div className="mb-2 flex items-center justify-between gap-2 text-[8px] font-medium uppercase tracking-[0.18em] text-muted-foreground">
+                        <span>Progress</span>
+                        <span className="relative inline-flex items-center justify-center overflow-hidden rounded-lg border border-accent/60 bg-accent/12 px-2 py-1 font-semibold text-accent shadow-[0_0_0_1px_rgba(236,240,241,0.18),0_0_16px_rgba(236,240,241,0.18)] transition-all duration-300 hover:scale-[1.02] hover:bg-accent/18">
+                          <span className="absolute inset-0 rounded-lg bg-[radial-gradient(circle_at_center,rgba(236,240,241,0.18),transparent_60%)]" aria-hidden="true" />
+                          <span className="absolute -inset-[1px] rounded-lg border border-accent/40 animate-pulse" aria-hidden="true" />
+                          <span className="relative">View details</span>
+                        </span>
+                      </div>
+                      <div className="h-2.5 w-full overflow-hidden rounded-full bg-[#ededed]">
+                        <span
+                          className={`block h-full rounded-full ${feature.accent}`}
+                          style={{ width: feature.progress }}
+                        />
+                      </div>
+                    </div>
+                  </button>
+                ))}
+              </div>
+
               <p className="mb-6 text-base leading-7 text-muted-foreground sm:text-lg">
                 A small corner of the internet for big ideas, honest conversations, and the people who make it all worth following.
               </p>
@@ -193,7 +300,7 @@ export default function Page() {
                   <Check className="size-4 text-accent" aria-hidden="true" />
                   <span>Open, friendly, always in motion.</span>
                 </div>
-                <button
+            <button
                   type="button"
                   onClick={handleInstallClick}
                   className="relative inline-flex items-center justify-center overflow-hidden rounded-lg border border-accent/60 bg-accent/12 px-3 py-2 text-[11px] font-semibold text-accent shadow-[0_0_0_1px_rgba(236,240,241,0.18),0_0_16px_rgba(236,240,241,0.18)] transition-all duration-300 hover:scale-[1.02] hover:bg-accent/18"
@@ -236,6 +343,98 @@ export default function Page() {
         )}
         <span className="sr-only">Open social links</span>
       </button>
+
+      {activeFeature && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-3 backdrop-blur-md sm:p-4"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="feature-dialog-title"
+          onMouseDown={(e) => { if (e.target === e.currentTarget) closeFeature() }}
+        >
+          <div className="w-full max-w-3xl animate-in fade-in slide-in-from-bottom-4 duration-300 sm:slide-in-from-bottom-0 sm:zoom-in-95">
+            <div className="overflow-hidden rounded-[28px] border border-border/60 bg-card text-card-foreground shadow-2xl">
+              <div className="flex items-center justify-between border-b border-border/60 px-5 py-4 sm:px-6">
+                <div>
+                  <p className="text-[10px] font-medium uppercase tracking-[0.18em] text-muted-foreground">Feature</p>
+                  <h3 id="feature-dialog-title" className="mt-1 text-xl font-semibold tracking-tight">{activeFeature.title}</h3>
+                </div>
+                <button
+                  type="button"
+                  onClick={closeFeature}
+                  className="flex size-9 items-center justify-center rounded-full bg-secondary text-secondary-foreground transition-colors hover:bg-secondary/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                  aria-label="Close feature details"
+                >
+                  <X className="size-4" />
+                </button>
+              </div>
+
+              <div className="p-4 sm:p-6">
+                <div className="relative overflow-hidden rounded-2xl border border-border/60 bg-background/40">
+                  <div
+                    className="flex transition-transform duration-300 ease-out"
+                    style={{ transform: `translateX(-${featureImageIndex * 100}%)` }}
+                  >
+                    {activeFeature.images.map((image, index) => (
+                      <img
+                        key={`${activeFeature.id}-${index}`}
+                        src={image}
+                        alt={`${activeFeature.title} preview ${index + 1}`}
+                        className="h-72 w-full shrink-0 object-cover sm:h-80"
+                      />
+                    ))}
+                  </div>
+
+                  {activeFeature.images.length > 1 && (
+                    <>
+                      <button
+                        type="button"
+                        onClick={() => setFeatureImageIndex((prev) => (prev === 0 ? activeFeature.images.length - 1 : prev - 1))}
+                        className="absolute left-3 top-1/2 flex size-9 -translate-y-1/2 items-center justify-center rounded-full bg-black/50 text-white backdrop-blur-sm transition hover:bg-black/70"
+                        aria-label="Previous image"
+                      >
+                        <span className="text-lg">‹</span>
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setFeatureImageIndex((prev) => (prev === activeFeature.images.length - 1 ? 0 : prev + 1))}
+                        className="absolute right-3 top-1/2 flex size-9 -translate-y-1/2 items-center justify-center rounded-full bg-black/50 text-white backdrop-blur-sm transition hover:bg-black/70"
+                        aria-label="Next image"
+                      >
+                        <span className="text-lg">›</span>
+                      </button>
+                    </>
+                  )}
+                </div>
+
+                <div className="mt-4 flex items-center justify-center gap-2">
+                  {activeFeature.images.map((_, index) => (
+                    <button
+                      key={`${activeFeature.id}-dot-${index}`}
+                      type="button"
+                      onClick={() => setFeatureImageIndex(index)}
+                      className={`h-2.5 rounded-full transition-all ${index === featureImageIndex ? 'w-8 bg-accent' : 'w-2.5 bg-muted-foreground/30'}`}
+                      aria-label={`Show image ${index + 1}`}
+                    />
+                  ))}
+                </div>
+
+                <p className="mt-5 text-sm leading-7 text-muted-foreground sm:text-base">{activeFeature.summary}</p>
+                <p className="mt-3 text-sm leading-7 text-foreground sm:text-base">{activeFeature.description}</p>
+
+                <ul className="mt-5 grid gap-2 sm:grid-cols-3">
+                  {activeFeature.bullets.map((bullet) => (
+                    <li key={bullet} className="flex items-center gap-2 rounded-xl border border-border/60 bg-background/40 px-3 py-2 text-sm text-foreground">
+                      <span className={`inline-block h-2.5 w-2.5 rounded-full ${activeFeature.accent}`} aria-hidden="true" />
+                      {bullet}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Modal */}
       {isOpen && (
