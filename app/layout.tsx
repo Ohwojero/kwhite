@@ -3,27 +3,27 @@ import type { Metadata, Viewport } from 'next'
 import './globals.css'
 
 export const metadata: Metadata = {
-  applicationName: 'K Social',
-  title: 'K Social — Where good stuff happens',
-  description: 'Connect with K Social across TikTok, WhatsApp, Facebook, and Instagram. Big ideas, honest conversations, always in motion.',
-  keywords: ['K Social', 'social media', 'TikTok', 'Instagram', 'WhatsApp', 'Facebook', 'community'],
-  authors: [{ name: 'K Social' }],
+  applicationName: 'ClickToChat',
+  title: 'ClickToChat — Where good stuff happens',
+  description: 'Connect with ClickToChat across TikTok, WhatsApp, Facebook, and Instagram. Big ideas, honest conversations, always in motion.',
+  keywords: ['ClickToChat', 'social media', 'TikTok', 'Instagram', 'WhatsApp', 'Facebook', 'community'],
+  authors: [{ name: 'ClickToChat' }],
   manifest: '/manifest.webmanifest',
   appleWebApp: {
     capable: true,
     statusBarStyle: 'black-translucent',
-    title: 'K Social',
+    title: 'ClickToChat',
   },
   openGraph: {
-    title: 'K Social — Where good stuff happens',
-    description: 'Connect with K Social across all your favourite platforms.',
+    title: 'ClickToChat — Where good stuff happens',
+    description: 'Connect with ClickToChat across all your favourite platforms.',
     type: 'website',
     locale: 'en_US',
   },
   twitter: {
     card: 'summary',
-    title: 'K Social',
-    description: 'Connect with K Social across all your favourite platforms.',
+    title: 'ClickToChat',
+    description: 'Connect with ClickToChat across all your favourite platforms.',
   },
   icons: {
     icon: [

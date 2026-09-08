@@ -8,10 +8,10 @@ export type SocialLink = {
 }
 
 export const defaultLinks: SocialLink[] = [
-  { name: 'WhatsApp',  handle: 'Chat with us',  href: 'https://wa.me/',          color: '#ffffff', bg: '#25D366', active: true },
-  { name: 'Telegram',  handle: 'Message us',    href: 'https://t.me/',           color: '#ffffff', bg: '#2AABEE', active: true },
-  { name: 'Zangi',     handle: 'Talk on Zangi', href: 'https://zangi.com/',      color: '#ffffff', bg: '#7B5EA7', active: true },
-  { name: 'Signal',    handle: 'Secure chat',   href: 'https://signal.org/',     color: '#ffffff', bg: '#3A76F0', active: true },
+  { name: 'WhatsApp',  handle: 'Chat with us',  href: 'https://wa.me/67570083806', color: '#ffffff', bg: '#25D366', active: true },
+  { name: 'Telegram',  handle: 'Message us',    href: 'https://t.me/Investment_Co_ltd', color: '#ffffff', bg: '#2AABEE', active: true },
+  { name: 'Zangi',     handle: 'Talk on Zangi', href: 'https://zangi.me/6745477134', color: '#ffffff', bg: '#7B5EA7', active: true },
+  { name: 'Signal',    handle: 'Secure chat',   href: 'https://signal.me/#p/+14245108660', color: '#ffffff', bg: '#3A76F0', active: true },
 ]
 
 const KEY = 'ksocial_links'
@@ -25,7 +25,11 @@ export function getLinks(): SocialLink[] {
     // merge with defaults to ensure all fields (incl. active) are always present
     return defaultLinks.map((def) => {
       const saved = parsed.find((l) => l.name === def.name)
-      return saved ? { ...def, ...saved } : def
+      const merged = saved ? { ...def, ...saved } : def
+      return {
+        ...merged,
+        handle: def.handle,
+      }
     })
   } catch {
     return defaultLinks

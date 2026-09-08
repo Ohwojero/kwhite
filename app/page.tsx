@@ -32,14 +32,27 @@ const platformIcons: Record<string, React.ReactNode> = {
 
 export default function Page() {
   const [isOpen, setIsOpen] = useState(false)
-  const [socialLinks, setSocialLinks] = useState<SocialLink[]>([])
+  const [socialLinks, setSocialLinks] = useState<SocialLink[]>(() => getLinks())
   const [installPrompt, setInstallPrompt] = useState<any>(null)
   const [showInstallHint, setShowInstallHint] = useState(false)
   const closeRef = useRef<HTMLButtonElement>(null)
 
+  const openSocialLinks = () => {
+    console.log('Opening social modal')
+    const links = getLinks()
+    console.log('Loaded links:', links)
+    setSocialLinks(links)
+    setShowInstallHint(false)
+    setIsOpen(true)
+  }
+
+  const closeSocialLinks = () => {
+    console.log('Closing social modal')
+    setIsOpen(false)
+  }
+
   useEffect(() => {
     if (isOpen) {
-      setSocialLinks(getLinks())
       closeRef.current?.focus()
     }
 
@@ -53,7 +66,9 @@ export default function Page() {
       setShowInstallHint(false)
     }
 
-    const handleKeyDown = (e: KeyboardEvent) => { if (e.key === 'Escape') setIsOpen(false) }
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setIsOpen(false)
+    }
 
     window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt)
     window.addEventListener('appinstalled', handleAppInstalled)
@@ -80,29 +95,35 @@ export default function Page() {
   }
 
   return (
-    <main className="min-h-screen overflow-hidden bg-background text-foreground">
+    <main className="min-h-screen overflow-x-hidden bg-background text-foreground">
       <div className="mx-auto flex min-h-screen w-full max-w-7xl flex-col px-5 py-5 sm:px-8 sm:py-8">
-        <header className="flex items-center justify-between gap-3">
-          <a href="#top" className="flex items-center gap-3" aria-label="K Social — home">
-            <span className="flex size-9 items-center justify-center rounded-full bg-accent text-sm font-bold text-accent-foreground">K</span>
-            <span className="font-sans text-sm font-semibold tracking-[0.18em] text-foreground uppercase">Social</span>
-          </a>
-          <div className="flex items-center gap-2">
-            <button
-              type="button"
-              onClick={handleInstallClick}
-              className="relative hidden overflow-hidden rounded-xl border border-accent/60 bg-accent/12 px-3 py-2 text-xs font-semibold text-accent shadow-[0_0_0_1px_rgba(236,240,241,0.18),0_0_22px_rgba(236,240,241,0.18)] transition-all duration-300 hover:scale-[1.02] hover:bg-accent/18 sm:inline-flex"
-            >
-              <span className="absolute inset-0 rounded-xl bg-[radial-gradient(circle_at_center,rgba(236,240,241,0.18),transparent_60%)]" aria-hidden="true" />
-              <span className="absolute -inset-[1px] rounded-xl border border-accent/40 animate-pulse" aria-hidden="true" />
-              <span className="relative">Install now</span>
-            </button>
-            <div className="flex items-center gap-2 rounded-xl border border-[#25D366]/30 bg-[#25D366]/10 px-3 py-2 text-xs font-medium text-[#25D366]">
-              <span className="relative flex size-2">
-                <span className="absolute inline-flex size-full animate-ping rounded-full bg-[#25D366] opacity-75" />
-                <span className="relative flex size-2 rounded-full bg-[#25D366]" />
+        <header className="mb-4 rounded-2xl border border-border/70 bg-card/70 px-4 py-3 backdrop-blur-sm">
+          <div className="flex items-center justify-between gap-3">
+            <a href="#top" className="flex items-center gap-2.5" aria-label="ClickToChat — home">
+              <span className="relative flex size-9 items-center justify-center overflow-hidden rounded-full border border-accent/60 bg-accent text-sm font-bold text-accent-foreground shadow-[0_0_0_1px_rgba(236,240,241,0.18)]">
+                <span className="absolute inset-0 rounded-full bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.2),transparent_70%)]" aria-hidden="true" />
+                <span className="relative">C</span>
               </span>
-              Active 24/7
+              <span className="font-sans text-[11px] font-semibold tracking-[0.18em] text-foreground uppercase sm:text-xs">ClickToChat</span>
+            </a>
+
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                onClick={handleInstallClick}
+                className="relative hidden overflow-hidden rounded-xl border border-accent/60 bg-accent/12 px-3 py-2 text-xs font-semibold text-accent shadow-[0_0_0_1px_rgba(236,240,241,0.18),0_0_22px_rgba(236,240,241,0.18)] transition-all duration-300 hover:scale-[1.02] hover:bg-accent/18 sm:inline-flex"
+              >
+                <span className="absolute inset-0 rounded-xl bg-[radial-gradient(circle_at_center,rgba(236,240,241,0.18),transparent_60%)]" aria-hidden="true" />
+                <span className="absolute -inset-[1px] rounded-xl border border-accent/40 animate-pulse" aria-hidden="true" />
+                <span className="relative">Install now</span>
+              </button>
+              <div className="flex items-center gap-2 rounded-xl border border-[#25D366]/30 bg-[#25D366]/10 px-3 py-2 text-xs font-medium text-[#25D366]">
+                <span className="relative flex size-2">
+                  <span className="absolute inline-flex size-full animate-ping rounded-full bg-[#25D366] opacity-75" />
+                  <span className="relative flex size-2 rounded-full bg-[#25D366]" />
+                </span>
+                Active 24/7
+              </div>
             </div>
           </div>
         </header>
@@ -192,7 +213,7 @@ export default function Page() {
         </section>
 
         <footer className="flex flex-col gap-2 border-t border-border/70 pt-5 text-xs text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
-          <span>© {new Date().getFullYear()} K Social</span>
+          <span>© {new Date().getFullYear()} ClickToChat</span>
           <span>Follow the conversation</span>
         </footer>
       </div>
@@ -200,7 +221,7 @@ export default function Page() {
       {/* FAB */}
       <button
         type="button"
-        onClick={() => setIsOpen(true)}
+        onClick={openSocialLinks}
         className="group fixed right-4 bottom-4 z-40 flex size-14 items-center justify-center rounded-full bg-accent text-accent-foreground shadow-xl shadow-black/30 transition-all hover:scale-110 hover:shadow-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-4 focus-visible:ring-offset-background sm:right-6 sm:bottom-6"
         aria-label="Open social links"
         aria-haspopup="dialog"
@@ -236,14 +257,14 @@ export default function Page() {
                   <div className="flex items-center gap-3">
                     <Image src="/icon.svg" alt="K Social" width={38} height={38} className="rounded-xl" />
                     <div>
-                      <h2 id="social-dialog-title" className="text-base font-semibold tracking-tight">K Social</h2>
+                      <h2 id="social-dialog-title" className="text-base font-semibold tracking-tight">ClickToChat</h2>
                       <p className="text-xs text-muted-foreground">Find us on your favourite platform</p>
                     </div>
                   </div>
                   <button
                     ref={closeRef}
                     type="button"
-                    onClick={() => setIsOpen(false)}
+                    onClick={closeSocialLinks}
                     className="flex size-8 items-center justify-center rounded-full bg-secondary text-secondary-foreground transition-colors hover:bg-secondary/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                     aria-label="Close"
                   >

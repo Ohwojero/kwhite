@@ -1,7 +1,7 @@
 {
-  "name": "K Social",
-  "short_name": "K Social",
-  "description": "Connect with K Social across your favourite communities and channels.",
+  "name": "ClickToChat",
+  "short_name": "ClickToChat",
+  "description": "Connect with ClickToChat across your favourite communities and channels.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#2c3e50",

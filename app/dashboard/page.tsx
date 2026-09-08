@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 import { ArrowLeft, Save, RotateCcw, CheckCircle2 } from 'lucide-react'
 import { getLinks, saveLinks, defaultLinks, type SocialLink } from '@/lib/links'
 
@@ -13,7 +13,6 @@ const platformColors: Record<string, string> = {
 }
 
 export default function Dashboard() {
-  const router = useRouter()
   const [links, setLinks] = useState<SocialLink[]>(defaultLinks)
   const [saved, setSaved] = useState(false)
 
@@ -45,18 +44,34 @@ export default function Dashboard() {
   return (
     <main className="min-h-screen bg-background text-foreground">
       <div className="mx-auto w-full max-w-2xl px-5 py-8 sm:px-8">
+        <header className="mb-8 rounded-2xl border border-border/70 bg-card/80 px-4 py-3 backdrop-blur-sm">
+          <div className="flex items-center justify-between gap-3">
+            <div className="flex items-center gap-3">
+              <a href="/" className="flex items-center gap-2.5" aria-label="ClickToChat home">
+                <span className="relative flex size-9 items-center justify-center overflow-hidden rounded-full border border-accent/60 bg-accent text-sm font-bold text-accent-foreground shadow-[0_0_0_1px_rgba(236,240,241,0.18)]">
+                  <span className="absolute inset-0 rounded-full bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.2),transparent_70%)]" aria-hidden="true" />
+                  <span className="relative">C</span>
+                </span>
+                <span className="font-sans text-[11px] font-semibold tracking-[0.18em] text-foreground uppercase sm:text-xs">ClickToChat</span>
+              </a>
+            </div>
+
+            <Link href="/" className="flex size-9 items-center justify-center rounded-xl bg-secondary text-secondary-foreground transition-colors hover:bg-secondary/70" aria-label="Back to home">
+              <ArrowLeft className="size-4" />
+            </Link>
+          </div>
+        </header>
 
         {/* Header */}
         <div className="mb-8 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <button
-              type="button"
-              onClick={() => router.push('/')}
+            <Link
+              href="/"
               className="flex size-9 items-center justify-center rounded-xl bg-secondary text-secondary-foreground transition-colors hover:bg-secondary/70"
               aria-label="Back to home"
             >
               <ArrowLeft className="size-4" />
-            </button>
+            </Link>
             <div>
               <h1 className="text-lg font-semibold tracking-tight">Dashboard</h1>
               <p className="text-xs text-muted-foreground">Manage your social links</p>
