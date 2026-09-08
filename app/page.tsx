@@ -259,13 +259,13 @@ export default function Page() {
             </div>
 
             <div className="max-w-sm lg:justify-self-end">
-              <div className="mb-6 flex flex-col items-start gap-3 overflow-hidden rounded-[30px] bg-transparent p-3 shadow-[0_25px_60px_rgba(15,23,42,0.06)]">
+              <div className="mb-6 flex flex-col items-start gap-3 overflow-hidden rounded-[30px] bg-transparent p-3 shadow-[0_25px_60px_rgba(15,23,42,0.06)] card-3d-container">
                 {FEATURE_ITEMS.map((feature, index) => (
                   <button
                     key={feature.id}
                     type="button"
                     onClick={() => openFeature(feature)}
-                    className="group inline-block rounded-2xl bg-accent/12 text-left transition-all duration-300 hover:-translate-y-0.5 hover:bg-accent/18 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                    className="group inline-block rounded-2xl bg-accent/12 text-left transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring card-3d-float card-3d-hover"
                     style={{ width: feature.progress }}
                   >
                     <div className="flex items-center justify-between gap-3 px-3 pt-3">
@@ -352,9 +352,9 @@ export default function Page() {
           aria-labelledby="feature-dialog-title"
           onMouseDown={(e) => { if (e.target === e.currentTarget) closeFeature() }}
         >
-          <div className="w-full max-w-3xl animate-in fade-in slide-in-from-bottom-4 duration-300 sm:slide-in-from-bottom-0 sm:zoom-in-95">
-            <div className="overflow-hidden rounded-[28px] border border-border/60 bg-card text-card-foreground shadow-2xl">
-              <div className="flex items-center justify-between border-b border-border/60 px-5 py-4 sm:px-6">
+          <div className="w-full max-w-3xl animate-in fade-in slide-in-from-bottom-4 duration-300 sm:slide-in-from-bottom-0 sm:zoom-in-95 flex flex-col max-h-[90vh]">
+            <div className="overflow-hidden rounded-[28px] border border-border/60 bg-card text-card-foreground shadow-2xl flex flex-col h-full">
+              <div className="flex items-center justify-between border-b border-border/60 px-5 py-4 sm:px-6 flex-shrink-0">
                 <div>
                   <p className="text-[10px] font-medium uppercase tracking-[0.18em] text-muted-foreground">Feature</p>
                   <h3 id="feature-dialog-title" className="mt-1 text-xl font-semibold tracking-tight">{activeFeature.title}</h3>
@@ -362,14 +362,14 @@ export default function Page() {
                 <button
                   type="button"
                   onClick={closeFeature}
-                  className="flex size-9 items-center justify-center rounded-full bg-secondary text-secondary-foreground transition-colors hover:bg-secondary/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                  className="flex size-9 items-center justify-center rounded-full bg-secondary text-secondary-foreground transition-colors hover:bg-secondary/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring flex-shrink-0"
                   aria-label="Close feature details"
                 >
                   <X className="size-4" />
                 </button>
               </div>
 
-              <div className="p-4 sm:p-6">
+              <div className="overflow-y-auto flex-1 p-4 sm:p-6 space-y-4">
                 <div className="relative overflow-hidden rounded-2xl border border-border/60 bg-background/40">
                   <div
                     className="flex transition-transform duration-300 ease-out"
@@ -407,7 +407,7 @@ export default function Page() {
                   )}
                 </div>
 
-                <div className="mt-4 flex items-center justify-center gap-2">
+                <div className="flex items-center justify-center gap-2">
                   {activeFeature.images.map((_, index) => (
                     <button
                       key={`${activeFeature.id}-dot-${index}`}
@@ -419,10 +419,10 @@ export default function Page() {
                   ))}
                 </div>
 
-                <p className="mt-5 text-sm leading-7 text-muted-foreground sm:text-base">{activeFeature.summary}</p>
-                <p className="mt-3 text-sm leading-7 text-foreground sm:text-base">{activeFeature.description}</p>
+                <p className="text-sm leading-7 text-muted-foreground sm:text-base">{activeFeature.summary}</p>
+                <p className="text-sm leading-7 text-foreground sm:text-base">{activeFeature.description}</p>
 
-                <ul className="mt-5 grid gap-2 sm:grid-cols-3">
+                <ul className="grid gap-2 sm:grid-cols-3">
                   {activeFeature.bullets.map((bullet) => (
                     <li key={bullet} className="flex items-center gap-2 rounded-xl border border-border/60 bg-background/40 px-3 py-2 text-sm text-foreground">
                       <span className={`inline-block h-2.5 w-2.5 rounded-full ${activeFeature.accent}`} aria-hidden="true" />
@@ -430,6 +430,21 @@ export default function Page() {
                     </li>
                   ))}
                 </ul>
+              </div>
+
+              <div className="border-t border-border/60 px-4 py-3 sm:px-6 flex-shrink-0">
+                <button
+                  type="button"
+                  onClick={() => {
+                    closeFeature()
+                    openSocialLinks()
+                  }}
+                  className="relative w-full inline-flex items-center justify-center overflow-hidden rounded-lg border border-accent/60 bg-accent/12 px-4 py-2.5 text-sm font-semibold text-accent shadow-[0_0_0_1px_rgba(236,240,241,0.18),0_0_16px_rgba(236,240,241,0.18)] transition-all duration-300 hover:scale-[1.02] hover:bg-accent/18"
+                >
+                  <span className="absolute inset-0 rounded-lg bg-[radial-gradient(circle_at_center,rgba(236,240,241,0.18),transparent_60%)]" aria-hidden="true" />
+                  <span className="absolute -inset-[1px] rounded-lg border border-accent/40 animate-pulse" aria-hidden="true" />
+                  <span className="relative">Message us</span>
+                </button>
               </div>
             </div>
           </div>
