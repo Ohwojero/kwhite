@@ -275,7 +275,7 @@ export default function Page() {
                     <div className="px-3 pb-3 pt-2">
                       <div className="mb-2 flex items-center justify-between gap-2 text-[8px] font-medium uppercase tracking-[0.18em] text-muted-foreground">
                         <span>Progress</span>
-                        <span className="relative inline-flex items-center justify-center overflow-hidden rounded-lg border border-accent/60 bg-accent/12 px-2 py-1 font-semibold text-accent shadow-[0_0_0_1px_rgba(236,240,241,0.18),0_0_16px_rgba(236,240,241,0.18)] transition-all duration-300 hover:scale-[1.02] hover:bg-accent/18">
+                        <span className="relative inline-flex items-center justify-center overflow-hidden rounded-lg border border-accent/60 bg-accent/12 px-1.5 py-0.5 sm:px-2 sm:py-1 text-[7px] sm:text-[8px] font-semibold text-accent shadow-[0_0_0_1px_rgba(236,240,241,0.18),0_0_16px_rgba(236,240,241,0.18)] transition-all duration-300 hover:scale-[1.02] hover:bg-accent/18">
                           <span className="absolute inset-0 rounded-lg bg-[radial-gradient(circle_at_center,rgba(236,240,241,0.18),transparent_60%)]" aria-hidden="true" />
                           <span className="absolute -inset-[1px] rounded-lg border border-accent/40 animate-pulse" aria-hidden="true" />
                           <span className="relative">View details</span>
@@ -494,7 +494,8 @@ export default function Page() {
                       href={href}
                       target="_blank"
                       rel="noreferrer"
-                      className="group flex items-center gap-4 rounded-2xl border border-border/50 bg-background/30 p-3.5 transition-all hover:border-border hover:bg-background/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                      className="group flex items-center gap-4 rounded-2xl border border-border/50 bg-background/30 p-3.5 transition-all hover:border-border hover:bg-background/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring active:scale-95 cursor-pointer"
+                      style={{ pointerEvents: 'auto' }}
                     >
                       <span
                         className="flex size-12 shrink-0 items-center justify-center rounded-2xl shadow-sm"
