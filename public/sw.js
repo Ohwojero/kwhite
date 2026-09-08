@@ -1,4 +1,4 @@
-const CACHE_NAME = 'k-social-v1'
+const CACHE_NAME = 'clicktochat-v2'
 const APP_SHELL = ['/', '/manifest.webmanifest']
 
 self.addEventListener('install', (event) => {
