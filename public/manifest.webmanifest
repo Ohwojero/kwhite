@@ -1,7 +1,7 @@
 {
-  "name": "ClickToChat",
-  "short_name": "ClickToChat",
-  "description": "Connect with ClickToChat across your favourite communities and channels.",
+  "name": "chathandles",
+  "short_name": "chathandles",
+  "description": "Connect with chathandles across your favourite communities and channels.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#2c3e50",

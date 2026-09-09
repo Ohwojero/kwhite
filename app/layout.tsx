@@ -3,27 +3,27 @@ import type { Metadata, Viewport } from 'next'
 import './globals.css'
 
 export const metadata: Metadata = {
-  applicationName: 'ClickToChat',
-  title: 'ClickToChat — Where good stuff happens',
-  description: 'Connect with ClickToChat across TikTok, WhatsApp, Facebook, and Instagram. Big ideas, honest conversations, always in motion.',
-  keywords: ['ClickToChat', 'social media', 'TikTok', 'Instagram', 'WhatsApp', 'Facebook', 'community'],
-  authors: [{ name: 'ClickToChat' }],
+  applicationName: 'chathandles',
+  title: 'chathandles — Where good stuff happens',
+  description: 'Connect with chathandles across TikTok, WhatsApp, Facebook, and Instagram. Big ideas, honest conversations, always in motion.',
+  keywords: ['chathandles', 'social media', 'TikTok', 'Instagram', 'WhatsApp', 'Facebook', 'community'],
+  authors: [{ name: 'chathandles' }],
   manifest: '/manifest.webmanifest',
   appleWebApp: {
     capable: true,
     statusBarStyle: 'black-translucent',
-    title: 'ClickToChat',
+    title: 'chathandles',
   },
   openGraph: {
-    title: 'ClickToChat — Where good stuff happens',
-    description: 'Connect with ClickToChat across all your favourite platforms.',
+    title: 'chathandles — Where good stuff happens',
+    description: 'Connect with chathandles across all your favourite platforms.',
     type: 'website',
     locale: 'en_US',
   },
   twitter: {
     card: 'summary',
-    title: 'ClickToChat',
-    description: 'Connect with ClickToChat across all your favourite platforms.',
+    title: 'chathandles',
+    description: 'Connect with chathandles across all your favourite platforms.',
   },
   icons: {
     icon: [

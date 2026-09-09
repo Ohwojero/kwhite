@@ -1,4 +1,4 @@
-const CACHE_NAME = 'clicktochat-v3'
+const CACHE_NAME = 'chathandles-v3'
 const APP_SHELL = ['/', '/manifest.webmanifest']
 
 self.addEventListener('install', (event) => {
