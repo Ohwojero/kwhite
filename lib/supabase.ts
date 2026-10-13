@@ -14,20 +14,20 @@ export const isSupabaseConfigured = Boolean(supabaseUrl && supabaseAnonKey)
 export const supabase = createClient(supabaseUrl, supabaseAnonKey)
 
 export async function signInAdmin(email: string, password: string): Promise<{ user: User | null; error: string | null }> {
-  if (!supabase) {
-    return { user: null, error: 'Supabase client is not configured' }
+  try {
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    })
+
+    if (error) {
+      return { user: null, error: error.message }
+    }
+
+    return { user: data.user, error: null }
+  } catch (err: any) {
+    return { user: null, error: err?.message || 'Login request failed' }
   }
-
-  const { data, error } = await supabase.auth.signInWithPassword({
-    email,
-    password,
-  })
-
-  if (error) {
-    return { user: null, error: error.message }
-  }
-
-  return { user: data.user, error: null }
 }
 
 export async function signOutAdmin(): Promise<{ error: string | null }> {
