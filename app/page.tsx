@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 import { Check, ExternalLink, MessageCircle, X } from 'lucide-react'
-import { getLinks, type SocialLink } from '@/lib/links'
+import { getLinks, fetchSocialLinks, type SocialLink } from '@/lib/links'
 
 const WhatsAppIcon = () => (
   <svg viewBox="0 0 24 24" fill="currentColor" className="size-4">
@@ -98,13 +98,27 @@ export default function Page() {
   const [featureImageIndex, setFeatureImageIndex] = useState(0)
   const closeRef = useRef<HTMLButtonElement>(null)
 
+  useEffect(() => {
+    fetchSocialLinks()
+      .then((links) => setSocialLinks(links))
+      .catch((err) => console.warn('Supabase links fetch:', err))
+
+    // Re-fetch automatically whenever the user focuses the page
+    const handleFocus = () => {
+      fetchSocialLinks()
+        .then((links) => setSocialLinks(links))
+        .catch(() => {})
+    }
+    window.addEventListener('focus', handleFocus)
+    return () => window.removeEventListener('focus', handleFocus)
+  }, [])
+
   const openSocialLinks = () => {
-    console.log('Opening social modal')
-    const links = getLinks()
-    console.log('Loaded links:', links)
-    setSocialLinks(links)
     setShowInstallHint(false)
     setIsOpen(true)
+    fetchSocialLinks()
+      .then((links) => setSocialLinks(links))
+      .catch(() => setSocialLinks(getLinks()))
   }
 
   const closeSocialLinks = () => {
